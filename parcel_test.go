@@ -41,11 +41,8 @@ func TestAddGetDelete(t *testing.T) {
 
 	storedParcel, err := store.Get(id)
 	require.NoError(t, err)
-	assert.Equal(t, parcel.Number, storedParcel.Number)
-	assert.Equal(t, parcel.Client, storedParcel.Client)
-	assert.Equal(t, parcel.Status, storedParcel.Status)
-	assert.Equal(t, parcel.Address, storedParcel.Address)
-	assert.Equal(t, parcel.CreatedAt, storedParcel.CreatedAt)
+
+	assert.Equal(t, parcel, storedParcel)
 
 	err = store.Delete(id)
 	require.NoError(t, err)
@@ -75,7 +72,6 @@ func TestSetAddress(t *testing.T) {
 	assert.Equal(t, newAddress, storedParcel.Address)
 }
 
-// TestSetStatus проверяет обновление статуса
 func TestSetStatus(t *testing.T) {
 	db, err := sql.Open("sqlite", "tracker.db")
 	require.NoError(t, err)
@@ -132,10 +128,6 @@ func TestGetByClient(t *testing.T) {
 		expected, exists := parcelMap[parcel.Number]
 		require.True(t, exists)
 
-		assert.Equal(t, expected.Number, parcel.Number)
-		assert.Equal(t, expected.Client, parcel.Client)
-		assert.Equal(t, expected.Status, parcel.Status)
-		assert.Equal(t, expected.Address, parcel.Address)
-		assert.Equal(t, expected.CreatedAt, parcel.CreatedAt)
+		assert.Equal(t, expected, parcel)
 	}
 }
